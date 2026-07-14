@@ -1,0 +1,30 @@
+{
+  "name": "tree-sitter-inkcss",
+  "version": "0.1.0",
+  "description": "Tree-sitter grammar for @kraken/ink .ink style modules",
+  "license": "UNLICENSED",
+  "private": true,
+  "files": [
+    "grammar.js",
+    "src/**",
+    "tree-sitter.json"
+  ],
+  "keywords": [
+    "tree-sitter",
+    "ink",
+    "css",
+    "neovim"
+  ],
+  "scripts": {
+    "generate": "tree-sitter generate --js-runtime native",
+    "test": "tree-sitter test"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.ink",
+      "file-types": [
+        "ink"
+      ]
+    }
+  ]
+}

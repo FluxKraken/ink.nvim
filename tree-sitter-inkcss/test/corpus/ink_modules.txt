@@ -1,0 +1,380 @@
+==================
+Selectors and relaxed object entries
+==================
+
+// Reset styles use selector keys and newline-separated entries.
+export default {
+  *, *::before, *::after: {
+    boxSizing: border-box
+    margin: 0
+  }
+
+  :root: {
+    colorScheme: light
+  }
+
+  a[href^="https://"]: {
+    textDecoration: underline
+  }
+
+  @media (prefers-color-scheme: dark): {
+    body: {
+      colorScheme: dark
+    }
+  }
+} as const
+
+---
+
+(source_file
+  (comment)
+  (export_default_declaration
+    (object
+      (object_entry
+        (selector
+          (selector_list
+            (universal_selector)
+            (universal_selector)
+            (pseudo_selector
+              (selector_identifier))
+            (universal_selector)
+            (pseudo_selector
+              (selector_identifier))))
+        (object
+          (object_entry
+            (property_key)
+            (css_value
+              (css_atom)))
+          (object_entry
+            (property_key)
+            (css_value
+              (css_atom)))))
+      (object_entry
+        (selector
+          (decorated_selector
+            (pseudo_selector
+              (selector_identifier))))
+        (object
+          (object_entry
+            (property_key)
+            (css_value
+              (css_atom)))))
+      (object_entry
+        (selector
+          (decorated_selector
+            (type_selector)
+            (attribute_selector)))
+        (object
+          (object_entry
+            (property_key)
+            (css_value
+              (css_atom)))))
+      (object_entry
+        (selector
+          (at_rule_selector
+            (selector_identifier)
+            (selector_condition
+              (selector_condition_text))))
+        (object
+          (object_entry
+            (property_key)
+            (object
+              (object_entry
+                (property_key)
+                (css_value
+                  (css_atom))))))))
+    (const_assertion)))
+
+==================
+Theme constructor and explicit values
+==================
+
+import { Theme } from "@kraken/ink"
+
+const surface = linear-gradient( _
+  147deg, _
+  hsl(200 100% 50%), _
+  hsl(60 80% 80%) _
+)
+
+const light = new Theme({
+  site: {
+    background: =surface
+    foreground: black
+  }
+})
+
+export default {
+  light: =light
+} as const
+
+---
+
+(source_file
+  (import_statement
+    (import_clause
+      (named_imports
+        (import_specifier
+          (identifier))))
+    (string))
+  (const_declaration
+    (identifier)
+    (css_value
+      (css_function
+        (css_atom)
+        (line_continuation)
+        (css_atom)
+        (line_continuation)
+        (css_function
+          (css_atom)
+          (css_atom)
+          (css_atom)
+          (css_atom))
+        (line_continuation)
+        (css_function
+          (css_atom)
+          (css_atom)
+          (css_atom)
+          (css_atom))
+        (line_continuation))))
+  (const_declaration
+    (identifier)
+    (new_expression
+      (identifier)
+      (object
+        (object_entry
+          (property_key)
+          (object
+            (object_entry
+              (property_key)
+              (explicit_expression
+                (identifier)))
+            (object_entry
+              (property_key)
+              (css_value
+                (css_atom))))))))
+  (export_default_declaration
+    (object
+      (object_entry
+        (property_key)
+        (explicit_expression
+          (identifier))))
+    (const_assertion)))
+
+==================
+Typed helpers and shorthand exports
+==================
+
+interface Gradient {
+  direction: string
+  from: string
+  to: string
+}
+
+function linearGradient({ direction, from, to }: Gradient) {
+  return linear-gradient(=direction, =from, =to)
+}
+
+export const gradientText = (gradient: string) => {
+  return {
+    background: =gradient
+    backgroundClip: text
+    color: transparent
+  }
+}
+
+export { linearGradient }
+
+export default {
+  =gradientText
+} as const
+
+---
+
+(source_file
+  (interface_declaration
+    (type_identifier)
+    (interface_body
+      (property_signature
+        (identifier)
+        (type_annotation
+          (type_expression
+            (type_reference
+              (type_identifier)))))
+      (property_signature
+        (identifier)
+        (type_annotation
+          (type_expression
+            (type_reference
+              (type_identifier)))))
+      (property_signature
+        (identifier)
+        (type_annotation
+          (type_expression
+            (type_reference
+              (type_identifier)))))))
+  (function_declaration
+    (identifier)
+    (parameter_list
+      (parameter
+        (object_pattern
+          (identifier)
+          (identifier)
+          (identifier))
+        (type_annotation
+          (type_expression
+            (type_reference
+              (type_identifier))))))
+    (block
+      (return_statement
+        (css_value
+          (css_function
+            (css_atom)
+            (css_interpolation
+              (identifier))
+            (css_interpolation
+              (identifier))
+            (css_interpolation
+              (identifier)))))))
+  (export_declaration
+    (const_declaration
+      (identifier)
+      (arrow_function
+        (parameter_list
+          (parameter
+            (identifier)
+            (type_annotation
+              (type_expression
+                (type_reference
+                  (type_identifier))))))
+        (block
+          (return_statement
+            (object
+              (object_entry
+                (property_key)
+                (explicit_expression
+                  (identifier)))
+              (object_entry
+                (property_key)
+                (css_value
+                  (css_atom)))
+              (object_entry
+                (property_key)
+                (css_value
+                  (css_atom)))))))))
+  (export_clause
+    (export_specifier
+      (identifier)))
+  (export_default_declaration
+    (object
+      (object_entry
+        (property_key)))
+    (const_assertion)))
+
+==================
+Arrays interpolations URLs and continuations
+==================
+
+const layout = { pageWidth: "72rem" }
+
+export default {
+  body: {
+    fontFamily: [system-ui, sans-serif]
+    maxWidth: calc(={layout.pageWidth.replace("rem", "px")} - 2rem)
+    backgroundImage: url(/assets/hero.svg?theme=dark&scale=2)
+    boxShadow: 0 1px 2px _
+      black
+    customToken: token_
+  }
+}
+
+---
+
+(source_file
+  (const_declaration
+    (identifier)
+    (object
+      (object_entry
+        (property_key)
+        (string))))
+  (export_default_declaration
+    (object
+      (object_entry
+        (property_key)
+        (object
+          (object_entry
+            (property_key)
+            (array
+              (css_value
+                (css_atom))
+              (css_value
+                (css_atom))))
+          (object_entry
+            (property_key)
+            (css_value
+              (css_function
+                (css_atom)
+                (css_interpolation
+                  (call_expression
+                    (member_expression
+                      (member_expression
+                        (identifier)
+                        (identifier))
+                      (identifier))
+                    (arguments
+                      (string)
+                      (string))))
+                (css_atom)
+                (css_atom))))
+          (object_entry
+            (property_key)
+            (css_value
+              (css_function
+                (css_atom)
+                (css_atom)
+                (css_equals)
+                (css_atom)
+                (css_equals)
+                (css_atom))))
+          (object_entry
+            (property_key)
+            (css_value
+              (css_atom)
+              (css_atom)
+              (css_atom)
+              (line_continuation)
+              (css_atom)))
+          (object_entry
+            (property_key)
+            (css_value
+              (css_atom))))))))
+
+==================
+Optional object commas and comments
+==================
+
+/* Commas remain available for JavaScript-shaped object formatting. */
+export default {
+  body: {
+    display: grid,
+    color: red,
+  },
+}
+
+---
+
+(source_file
+  (comment)
+  (export_default_declaration
+    (object
+      (object_entry
+        (property_key)
+        (object
+          (object_entry
+            (property_key)
+            (css_value
+              (css_atom)))
+          (object_entry
+            (property_key)
+            (css_value
+              (css_atom))))))))
