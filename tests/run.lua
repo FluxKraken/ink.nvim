@@ -40,6 +40,18 @@ local function run()
   end
   assert(property_capture, "boxSizing should receive the property highlight capture")
 
+  vim.api.nvim_set_hl(0, "TSKeyword", { fg = "#a277ff" })
+  vim.api.nvim_set_hl(0, "TSProperty", { fg = "#f694ff" })
+  vim.api.nvim_set_hl(0, "TSString", { fg = "#61ffca" })
+  require("ink.highlights").apply()
+
+  assert(vim.api.nvim_get_hl(0, { name = "@keyword.inkcss", link = true }).link == "TSKeyword",
+    "legacy themes should color Ink keywords through TSKeyword")
+  assert(vim.api.nvim_get_hl(0, { name = "@property.inkcss", link = true }).link == "TSProperty",
+    "legacy themes should color Ink properties through TSProperty")
+  assert(vim.api.nvim_get_hl(0, { name = "@string.special.inkcss", link = true }).link == "TSString",
+    "legacy themes should color Ink CSS values through TSString")
+
   assert(vim.wait(1000, function()
     return #vim.lsp.get_clients({ bufnr = bufnr, name = "ink" }) > 0
   end), "the Ink LSP client should attach automatically")

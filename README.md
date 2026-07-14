@@ -67,6 +67,14 @@ the complete installation with:
 
 Re-run `:InkInstallParser` after a plugin update that changes the grammar.
 
+### Older colorschemes
+
+`ink.nvim` uses Neovim's current Tree-sitter `@capture` highlight names. If a
+colorscheme defines only the older `TS*` highlight groups, the plugin detects
+those groups and adds Ink-only fallback links. This preserves distinct colors
+for keywords, CSS properties, selectors, and values while leaving modern
+`@capture`-based themes and user `@capture.inkcss` overrides unchanged.
+
 ## Local development installation
 
 With the reference lazy.nvim layout, create

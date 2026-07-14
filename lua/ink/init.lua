@@ -26,6 +26,7 @@ function M.setup(opts)
 
   vim.filetype.add({ extension = { ink = "ink" } })
   create_commands()
+  require("ink.highlights").setup()
 
   if M.config.treesitter.enable then
     require("ink.treesitter").setup(M.config.treesitter)
